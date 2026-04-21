@@ -23,12 +23,10 @@ import Base from '../layouts/Base.astro';
 
   <!-- Content -->
   <div class="center">
-    <h1 class="title">claw<span style="color:#e8934a;">.</span>equipment</h1>
     <form class="form" id="sf">
       <input type="email" id="ei" placeholder="your@email.com" required autocomplete="email" class="input" />
-      <button type="submit" class="btn">Early Access</button>
+      <button type="submit" class="btn">Sent</button>
     </form>
-    <p class="note" id="note">Be first to equip.</p>
   </div>
 
 </Base>
@@ -51,15 +49,6 @@ import Base from '../layouts/Base.astro';
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .title {
-    font-family: 'Cinzel', 'Palatino Linotype', serif;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    font-weight: 400;
-    letter-spacing: 0.06em;
-    color: rgba(255, 255, 255, 0.92);
-    margin-bottom: 2rem;
-  }
-
   .form {
     display: flex;
     gap: 0;
@@ -72,7 +61,6 @@ import Base from '../layouts/Base.astro';
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 0.8rem;
   }
 
   .form:focus-within {
@@ -116,13 +104,6 @@ import Base from '../layouts/Base.astro';
     background: rgba(232, 147, 74, 0.28);
   }
 
-  .note {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.62rem;
-    color: rgba(255, 255, 255, 0.18);
-    letter-spacing: 0.06em;
-  }
-
   @media (max-width: 600px) {
     .form {
       flex-direction: column;
@@ -147,8 +128,7 @@ import Base from '../layouts/Base.astro';
         stored.push(email);
         localStorage.setItem('claw-early-access', JSON.stringify(stored));
       }
-      form.outerHTML = '<p style="font-family:Crimson Pro,Georgia,serif;font-size:1rem;color:#f4a85c;animation:fadeIn 0.5s ease-out;">You are on the list.</p>';
-      if (note) note.style.display = 'none';
+      form.outerHTML = '<p style="font-family:Crimson Pro,Georgia,serif;font-size:1rem;color:#f4a85c;">You are on the list.</p>';
     }
   });
 </script>
