@@ -2,207 +2,47 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="claw.equipment | Equip Your AI">
+<Base title="claw.equipment">
 
-  <!-- LAYER 1: Blurred spark.actor mockup as background -->
-  <div class="backdrop">
-
-    <!-- The actor figure, blurred -->
-    <div class="backdrop-figure">
-      <img src="/actor-figure.png" alt="" aria-hidden="true" />
+  <!-- Blurred backdrop -->
+  <div style="position:fixed;inset:0;z-index:0;overflow:hidden;">
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:55vw;max-width:800px;pointer-events:none;">
+      <img src="/actor-figure.png" alt="" style="width:100%;height:auto;display:block;opacity:0.6;" />
     </div>
-
-    <!-- Fake UI panels (blurred) to suggest the spark.actor interface -->
-    <div class="backdrop-ui">
-      <!-- Left panels -->
-      <div class="mock-panel" style="top: 12%; left: 4%; width: 180px; height: 90px;"></div>
-      <div class="mock-panel" style="top: 28%; left: 4%; width: 180px; height: 90px;"></div>
-      <div class="mock-panel" style="top: 44%; left: 4%; width: 180px; height: 90px;"></div>
-      <div class="mock-panel" style="bottom: 14%; left: 4%; width: 180px; height: 90px;"></div>
-
-      <!-- Right panels -->
-      <div class="mock-panel" style="top: 12%; right: 4%; width: 180px; height: 90px;"></div>
-      <div class="mock-panel" style="top: 28%; right: 4%; width: 180px; height: 90px;"></div>
-
-      <!-- Skill grid (bottom right) -->
-      <div class="mock-panel" style="bottom: 14%; right: 4%; width: 280px; height: 200px;"></div>
-
-      <!-- Top bar -->
-      <div class="mock-bar mock-bar-top"></div>
-
-      <!-- Bottom bar -->
-      <div class="mock-bar mock-bar-bottom"></div>
-
-      <!-- Equipped slots around figure -->
-      <div class="mock-slot" style="top: 14%; left: 44%;"></div>
-      <div class="mock-slot" style="top: 14%; left: 52%;"></div>
-      <div class="mock-slot" style="top: 26%; left: 42%;"></div>
-      <div class="mock-slot" style="top: 26%; left: 54%;"></div>
-
-      <!-- Soul orb -->
-      <div class="mock-soul"></div>
-    </div>
+    <!-- Ghost UI panels -->
+    <div style="position:absolute;top:12%;left:4%;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
+    <div style="position:absolute;top:28%;left:4%;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
+    <div style="position:absolute;top:12%;right:4%;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
+    <div style="position:absolute;top:28%;right:4%;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
+    <div style="position:absolute;bottom:14%;right:4%;width:280px;height:200px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
+    <div style="position:absolute;top:36%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 40% 35%,rgba(232,147,74,0.3) 0%,rgba(232,147,74,0.08) 40%,transparent 70%);border:1px solid rgba(232,147,74,0.2);box-shadow:0 0 40px rgba(232,147,74,0.2),0 0 80px rgba(232,147,74,0.08);"></div>
   </div>
 
-  <!-- LAYER 2: Blur + darken overlay -->
-  <div class="blur-overlay"></div>
+  <!-- Blur overlay -->
+  <div style="position:fixed;inset:0;z-index:1;backdrop-filter:blur(18px) saturate(0.7);-webkit-backdrop-filter:blur(18px) saturate(0.7);background:rgba(0,2,9,0.55);"></div>
 
-  <!-- LAYER 3: Content overlay -->
-  <div class="content">
-
-    <div class="content-inner">
-
-      <!-- Brand -->
-      <div class="brand-mark">
-        <span class="brand-icon">&#x2692;</span>
-      </div>
-
-      <h1 class="title">claw<span class="title-dot">.</span>equipment</h1>
-
-      <p class="tagline">Equip your AI.</p>
-
-      <p class="description">
-        A visual workbench for building AI agents with soul, identity, and skills.
-        Drag. Drop. Spark.
-      </p>
-
-      <!-- Email signup -->
-      <form class="signup-form" id="signup-form">
-        <input
-          type="email"
-          id="email-input"
-          placeholder="your@email.com"
-          required
-          autocomplete="email"
-          class="signup-input"
-        />
-        <button type="submit" class="signup-button">
-          <span class="signup-button-text">Early Access</span>
-        </button>
-      </form>
-
-      <p class="signup-note" id="signup-note">
-        Be first to equip. No spam. Just the spark.
-      </p>
-
-      <!-- Presentation hint -->
-      <div class="presentation-badge">
-        <span class="badge-dot"></span>
-        <span class="badge-text">Presented at PyStok &middot; April 2026</span>
-      </div>
-
-    </div>
-
+  <!-- Content -->
+  <div class="center">
+    <h1 class="title">claw<span style="color:#e8934a;">.</span>equipment</h1>
+    <form class="form" id="sf">
+      <input type="email" id="ei" placeholder="your@email.com" required autocomplete="email" class="input" />
+      <button type="submit" class="btn">Early Access</button>
+    </form>
+    <p class="note" id="note">Be first to equip.</p>
   </div>
 
 </Base>
 
 <style>
-  /* ── Backdrop: full-screen blurred mockup ── */
-
-  .backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-  }
-
-  .backdrop-figure {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 55vw;
-    max-width: 800px;
-    pointer-events: none;
-  }
-
-  .backdrop-figure img {
-    width: 100%;
-    height: auto;
-    display: block;
-    opacity: 0.6;
-  }
-
-  .backdrop-ui {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-
-  .mock-panel {
-    position: absolute;
-    background: rgba(10, 10, 18, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 10px;
-    backdrop-filter: blur(4px);
-  }
-
-  .mock-bar {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 32px;
-    background: rgba(6, 6, 12, 0.5);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  }
-
-  .mock-bar-top { top: 0; }
-  .mock-bar-bottom {
-    top: auto;
-    bottom: 0;
-    border-bottom: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
-  }
-
-  .mock-slot {
-    position: absolute;
-    width: 52px;
-    height: 52px;
-    border-radius: 8px;
-    border: 1.5px solid rgba(110, 180, 232, 0.15);
-    background: linear-gradient(145deg, rgba(110, 180, 232, 0.06), rgba(110, 180, 232, 0.02));
-  }
-
-  .mock-soul {
-    position: absolute;
-    top: 36%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 40% 35%, rgba(232, 147, 74, 0.3) 0%, rgba(232, 147, 74, 0.08) 40%, transparent 70%);
-    border: 1px solid rgba(232, 147, 74, 0.2);
-    box-shadow: 0 0 40px rgba(232, 147, 74, 0.2), 0 0 80px rgba(232, 147, 74, 0.08);
-  }
-
-  /* ── Blur overlay ── */
-
-  .blur-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    backdrop-filter: blur(18px) saturate(0.7);
-    -webkit-backdrop-filter: blur(18px) saturate(0.7);
-    background: rgba(0, 2, 9, 0.55);
-  }
-
-  /* ── Content ── */
-
-  .content {
+  .center {
     position: fixed;
     inset: 0;
     z-index: 2;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 2rem;
-  }
-
-  .content-inner {
-    text-align: center;
-    max-width: 480px;
     animation: fadeIn 1.2s ease-out;
   }
 
@@ -211,67 +51,20 @@ import Base from '../layouts/Base.astro';
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ── Brand mark ── */
-
-  .brand-mark {
-    margin-bottom: 1.6rem;
-  }
-
-  .brand-icon {
-    font-size: 2.2rem;
-    color: var(--ember);
-    text-shadow: 0 0 24px rgba(232, 147, 74, 0.4);
-    animation: breathe 3s ease-in-out infinite;
-  }
-
-  @keyframes breathe {
-    0%, 100% { opacity: 0.7; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.06); }
-  }
-
-  /* ── Typography ── */
-
   .title {
-    font-family: var(--font-display);
+    font-family: 'Cinzel', 'Palatino Linotype', serif;
     font-size: clamp(2rem, 5vw, 3.2rem);
     font-weight: 400;
     letter-spacing: 0.06em;
-    color: var(--text-bright);
-    margin-bottom: 0.6rem;
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 2rem;
   }
 
-  .title-dot {
-    color: var(--ember);
-  }
-
-  .tagline {
-    font-family: var(--font-body);
-    font-size: 1.25rem;
-    font-weight: 300;
-    font-style: italic;
-    color: var(--text-mid);
-    margin-bottom: 1.4rem;
-    letter-spacing: 0.02em;
-  }
-
-  .description {
-    font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--text-dim);
-    margin-bottom: 2.4rem;
-    max-width: 380px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* ── Signup form ── */
-
-  .signup-form {
+  .form {
     display: flex;
     gap: 0;
     max-width: 380px;
-    margin: 0 auto 0.8rem;
+    width: 100%;
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid rgba(232, 147, 74, 0.25);
@@ -279,152 +72,83 @@ import Base from '../layouts/Base.astro';
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 0.8rem;
   }
 
-  .signup-form:focus-within {
+  .form:focus-within {
     border-color: rgba(232, 147, 74, 0.5);
     box-shadow: 0 0 30px rgba(232, 147, 74, 0.12);
   }
 
-  .signup-input {
+  .input {
     flex: 1;
     padding: 0.8rem 1rem;
     background: transparent;
     border: none;
     outline: none;
-    font-family: var(--font-mono);
+    font-family: 'JetBrains Mono', monospace;
     font-size: 0.82rem;
-    color: var(--text-bright);
+    color: rgba(255, 255, 255, 0.92);
     letter-spacing: 0.02em;
   }
 
-  .signup-input::placeholder {
+  .input::placeholder {
     color: rgba(255, 255, 255, 0.2);
   }
 
-  .signup-button {
+  .btn {
     padding: 0.8rem 1.4rem;
     background: rgba(232, 147, 74, 0.15);
     border: none;
     border-left: 1px solid rgba(232, 147, 74, 0.2);
     cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .signup-button:hover {
-    background: rgba(232, 147, 74, 0.28);
-  }
-
-  .signup-button-text {
-    font-family: var(--font-display);
+    font-family: 'Cinzel', serif;
     font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--ember);
+    color: #e8934a;
     white-space: nowrap;
+    transition: background 0.3s ease;
   }
 
-  .signup-note {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
+  .btn:hover {
+    background: rgba(232, 147, 74, 0.28);
+  }
+
+  .note {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
     color: rgba(255, 255, 255, 0.18);
     letter-spacing: 0.06em;
-    margin-bottom: 2.4rem;
   }
-
-  /* ── Presentation badge ── */
-
-  .presentation-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem 1rem;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    background: rgba(255, 255, 255, 0.02);
-  }
-
-  .badge-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--ember);
-    box-shadow: 0 0 8px rgba(232, 147, 74, 0.5);
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
-  }
-
-  .badge-text {
-    font-family: var(--font-mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.3);
-  }
-
-  /* ── Success state ── */
-
-  .signup-success {
-    font-family: var(--font-body);
-    font-size: 1rem;
-    color: var(--ember-bright);
-    animation: fadeIn 0.5s ease-out;
-  }
-
-  /* ── Mobile ── */
 
   @media (max-width: 600px) {
-    .backdrop-figure {
-      width: 90vw;
-    }
-
-    .mock-panel {
-      display: none;
-    }
-
-    .signup-form {
+    .form {
       flex-direction: column;
-      border-radius: 8px;
     }
-
-    .signup-button {
+    .btn {
       border-left: none;
       border-top: 1px solid rgba(232, 147, 74, 0.2);
-    }
-
-    .description {
-      font-size: 0.9rem;
     }
   }
 </style>
 
 <script>
-  const form = document.getElementById('signup-form');
-  const note = document.getElementById('signup-note');
-
+  const form = document.getElementById('sf');
+  const note = document.getElementById('note');
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
-    const input = document.getElementById('email-input') as HTMLInputElement;
+    const input = document.getElementById('ei') as HTMLInputElement;
     const email = input?.value;
-
     if (email) {
-      // Store locally for now; hook up to a real backend later
       const stored = JSON.parse(localStorage.getItem('claw-early-access') || '[]');
       if (!stored.includes(email)) {
         stored.push(email);
         localStorage.setItem('claw-early-access', JSON.stringify(stored));
       }
-
-      // Replace form with confirmation
-      form.outerHTML = '<p class="signup-success">You are on the list. We will reach out.</p>';
+      form.outerHTML = '<p style="font-family:Crimson Pro,Georgia,serif;font-size:1rem;color:#f4a85c;animation:fadeIn 0.5s ease-out;">You are on the list.</p>';
       if (note) note.style.display = 'none';
     }
   });
 </script>
-
-</Base>
