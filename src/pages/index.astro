@@ -6,9 +6,7 @@ import Base from '../layouts/Base.astro';
 
   <!-- Blurred backdrop -->
   <div style="position:fixed;inset:0;z-index:0;overflow:hidden;">
-    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70vw;max-width:1000px;pointer-events:none;">
-      <img src="/actor-figure.png" alt="" style="width:100%;height:auto;display:block;opacity:1;" />
-    </div>
+    <img src="/actor-figure.png" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);min-width:100vw;min-height:100vh;width:auto;height:auto;object-fit:cover;pointer-events:none;opacity:1;" />
     <!-- Ghost UI panels -->
     <div style="position:absolute;top:12%;left:4%;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
     <div style="position:absolute;top:28%;left:4%;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
