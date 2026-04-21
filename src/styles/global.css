@@ -1,0 +1,37 @@
+/* =============================================
+   CLAW.EQUIPMENT - Teaser
+   ============================================= */
+
+:root {
+  --void: #06060a;
+  --obsidian: #0a0a12;
+  --ember: #e8934a;
+  --ember-bright: #f4a85c;
+  --ember-glow: rgba(232, 147, 74, 0.35);
+  --text-bright: rgba(255, 255, 255, 0.92);
+  --text-mid: rgba(255, 255, 255, 0.5);
+  --text-dim: rgba(255, 255, 255, 0.22);
+  --font-display: 'Cinzel', 'Palatino Linotype', serif;
+  --font-body: 'Crimson Pro', 'Georgia', serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: #000209;
+  color: var(--text-bright);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--ember-glow);
+  color: var(--void);
+}
