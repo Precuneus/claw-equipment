@@ -6,8 +6,8 @@ import Base from '../layouts/Base.astro';
 
   <!-- Blurred backdrop -->
   <div style="position:fixed;inset:0;z-index:0;overflow:hidden;">
-    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:55vw;max-width:800px;pointer-events:none;">
-      <img src="/actor-figure.png" alt="" style="width:100%;height:auto;display:block;opacity:0.85;" />
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70vw;max-width:1000px;pointer-events:none;">
+      <img src="/actor-figure.png" alt="" style="width:100%;height:auto;display:block;opacity:1;" />
     </div>
     <!-- Ghost UI panels -->
     <div style="position:absolute;top:12%;left:4%;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
@@ -19,7 +19,7 @@ import Base from '../layouts/Base.astro';
   </div>
 
   <!-- Blur overlay -->
-  <div style="position:fixed;inset:0;z-index:1;backdrop-filter:blur(6px) saturate(0.8);-webkit-backdrop-filter:blur(6px) saturate(0.8);background:rgba(0,2,9,0.15);"></div>
+  <div style="position:fixed;inset:0;z-index:1;backdrop-filter:blur(4px) saturate(0.9);-webkit-backdrop-filter:blur(4px) saturate(0.9);background:rgba(0,2,9,0.08);"></div>
 
   <!-- Content -->
   <div class="center">
