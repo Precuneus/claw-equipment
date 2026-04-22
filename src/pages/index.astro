@@ -109,6 +109,7 @@ import Base from '../layouts/Base.astro';
 
   // Encryption utilities
   const SALT = import.meta.env.PUBLIC_ENCRYPTION_SALT;
+  const SCRIPT_URL = import.meta.env.PUBLIC_APPS_SCRIPT_URL;
 
   async function deriveKey(salt: string): Promise<CryptoKey> {
     const enc = new TextEncoder();
@@ -149,12 +150,15 @@ import Base from '../layouts/Base.astro';
     if (email) {
       try {
         const encrypted = await encryptEmail(email);
-        const stored = JSON.parse(localStorage.getItem('claw-early-access') || '[]');
-        stored.push({ ts: Date.now(), data: encrypted });
-        localStorage.setItem('claw-early-access', JSON.stringify(stored));
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ ts: Date.now(), data: encrypted }),
+        });
         form.outerHTML = '<p style="font-family:Crimson Pro,Georgia,serif;font-size:1rem;color:#f4a85c;">You are on the list.</p>';
       } catch (err) {
-        console.error('Encryption failed:', err);
+        console.error('Submission failed:', err);
       }
     }
   });

@@ -15,8 +15,8 @@
   <h3>claw.equipment signup decryptor</h3>
   <p>Paste the salt from .env:</p>
   <input type="text" id="salt" placeholder="PUBLIC_ENCRYPTION_SALT value" />
-  <p>Paste localStorage JSON (claw-early-access):</p>
-  <textarea id="data" rows="6" placeholder='[{"ts":...,"data":"..."}]'></textarea>
+  <p>Paste the sheet's <code>data</code> column (one blob per line) — or the old localStorage JSON:</p>
+  <textarea id="data" rows="6" placeholder='Paste base64 blobs (one per line) or [{"ts":...,"data":"..."}]'></textarea>
   <br><button onclick="run()">Decrypt</button>
   <pre id="out"></pre>
 
@@ -50,11 +50,16 @@
       const out = document.getElementById('out');
       if (!salt || !dataStr) { out.textContent = 'Fill both fields.'; return; }
       try {
-        const entries = JSON.parse(dataStr);
+        let entries;
+        if (dataStr.startsWith('[')) {
+          entries = JSON.parse(dataStr).map(e => ({ ts: e.ts, data: e.data }));
+        } else {
+          entries = dataStr.split('\n').filter(l => l.trim()).map(l => ({ ts: null, data: l.trim() }));
+        }
         const results = [];
         for (const entry of entries) {
           const email = await decryptEntry(salt, entry.data);
-          const date = new Date(entry.ts).toISOString();
+          const date = entry.ts ? new Date(entry.ts).toISOString() : '(no timestamp)';
           results.push(`${date}  ${email}`);
         }
         out.textContent = results.join('\n') || 'No entries.';

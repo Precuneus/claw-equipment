@@ -24,7 +24,9 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: echo "PUBLIC_ENCRYPTION_SALT=${{ secrets.ENCRYPTION_SALT }}" > .env
+      - run: |
+          echo "PUBLIC_ENCRYPTION_SALT=${{ secrets.ENCRYPTION_SALT }}" > .env
+          echo "PUBLIC_APPS_SCRIPT_URL=${{ secrets.APPS_SCRIPT_URL }}" >> .env
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
