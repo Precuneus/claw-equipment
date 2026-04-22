@@ -22,7 +22,7 @@ npm install
 
 # Fill in both secrets
 echo "PUBLIC_ENCRYPTION_SALT=your-secret-salt" > .env
-echo "PUBLIC_APPS_SCRIPT_URL=https://script.google.com/macros/s/.../exec" >> .env
+echo "PUBLIC_APPS_SCRIPT_URL=..." >> .env
 
 npm run dev       # dev server with hot reload
 npm run build     # production build → dist/
