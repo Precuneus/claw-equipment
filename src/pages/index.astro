@@ -150,6 +150,7 @@ import Base from '../layouts/Base.astro';
     if (email) {
       try {
         const encrypted = await encryptEmail(email);
+        if (!SCRIPT_URL) throw new Error('APPS_SCRIPT_URL not configured');
         await fetch(SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
