@@ -4,54 +4,43 @@ import Base from '../layouts/Base.astro';
 
 <Base title="claw.equipment">
 
-  <!-- Blurred backdrop -->
-  <div style="position:fixed;inset:0;z-index:0;overflow:hidden;">
-    <img src="/actor-figure.png" alt="" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);min-width:80vw;min-height:80vh;width:auto;height:auto;object-fit:cover;pointer-events:none;opacity:1;" />
-    <!-- Ghost UI panels -->
-    <div style="position:absolute;top:12%;left:4%;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
-    <div style="position:absolute;top:28%;left:4%;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
-    <div style="position:absolute;top:12%;right:4%;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
-    <div style="position:absolute;top:28%;right:4%;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
-    <div style="position:absolute;bottom:14%;right:4%;width:280px;height:200px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
-    <div style="position:absolute;top:36%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 40% 35%,rgba(232,147,74,0.3) 0%,rgba(232,147,74,0.08) 40%,transparent 70%);border:1px solid rgba(232,147,74,0.2);box-shadow:0 0 40px rgba(232,147,74,0.2),0 0 80px rgba(232,147,74,0.08);"></div>
-  </div>
+  <div id="viewport" style="position:fixed;inset:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#000209;">
 
-  <!-- Blur overlay -->
-  <div style="position:fixed;inset:0;z-index:1;backdrop-filter:blur(4px) saturate(0.9);-webkit-backdrop-filter:blur(4px) saturate(0.9);background:rgba(0,2,9,0.3);"></div>
+    <!-- Reference canvas: fixed size, scaled to fit -->
+    <div id="canvas" style="width:1200px;height:743px;position:relative;flex-shrink:0;transform-origin:center center;">
 
-  <!-- Content -->
-  <div class="center">
-    <form class="form" id="sf">
-      <input type="email" id="ei" placeholder="your@email.com" required autocomplete="email" class="input" />
-      <button type="submit" class="btn">Sent</button>
-    </form>
+      <!-- Figure: fills the canvas -->
+      <img src="/actor-figure.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;" />
+
+      <!-- Ghost UI panels -->
+      <div style="position:absolute;top:70px;left:40px;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
+      <div style="position:absolute;top:190px;left:40px;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
+      <div style="position:absolute;top:70px;right:40px;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
+      <div style="position:absolute;top:190px;right:40px;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
+      <div style="position:absolute;bottom:60px;right:40px;width:280px;height:180px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
+      <div style="position:absolute;bottom:60px;left:40px;width:180px;height:90px;background:rgba(10,10,18,0.55);border:1px solid rgba(255,255,255,0.06);border-radius:10px;"></div>
+
+      <!-- Blur overlay: sits on the canvas too -->
+      <div style="position:absolute;inset:0;backdrop-filter:blur(4px) saturate(0.9);-webkit-backdrop-filter:blur(4px) saturate(0.9);background:rgba(0,2,9,0.3);z-index:1;"></div>
+
+      <!-- Form: positioned on the canvas at chest level -->
+      <div style="position:absolute;top:380px;left:50%;transform:translateX(-50%);z-index:2;">
+        <form class="form" id="sf">
+          <input type="email" id="ei" placeholder="your@email.com" required autocomplete="email" class="input" />
+          <button type="submit" class="btn">Sent</button>
+        </form>
+      </div>
+
+    </div>
   </div>
 
 </Base>
 
 <style>
-  .center {
-    position: fixed;
-    inset: 0;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    animation: fadeIn 1.2s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
   .form {
     display: flex;
     gap: 0;
-    max-width: 380px;
-    width: 100%;
+    width: 380px;
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid rgba(232, 147, 74, 0.25);
@@ -101,21 +90,25 @@ import Base from '../layouts/Base.astro';
   .btn:hover {
     background: rgba(232, 147, 74, 0.28);
   }
-
-  @media (max-width: 600px) {
-    .form {
-      flex-direction: column;
-    }
-    .btn {
-      border-left: none;
-      border-top: 1px solid rgba(232, 147, 74, 0.2);
-    }
-  }
 </style>
 
 <script>
+  // Scale canvas to fit viewport (same approach as spark.actor)
+  function scaleCanvas() {
+    const viewport = document.getElementById('viewport');
+    const canvas = document.getElementById('canvas');
+    if (!viewport || !canvas) return;
+    const vw = viewport.clientWidth;
+    const vh = viewport.clientHeight;
+    const s = Math.max(vw / 1200, vh / 743);
+    canvas.style.transform = `scale(${s})`;
+  }
+
+  scaleCanvas();
+  window.addEventListener('resize', scaleCanvas);
+
+  // Form handler
   const form = document.getElementById('sf');
-  const note = document.getElementById('note');
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
     const input = document.getElementById('ei') as HTMLInputElement;
