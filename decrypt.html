@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Decrypt Signups</title>
+  <style>
+    body { background: #06060a; color: #e0e0e0; font-family: 'JetBrains Mono', monospace; padding: 2rem; }
+    input, textarea { background: #0a0a12; color: #e0e0e0; border: 1px solid #333; padding: 0.5rem; font-family: inherit; width: 100%; margin: 0.5rem 0; }
+    button { background: #e8934a; color: #06060a; border: none; padding: 0.6rem 1.2rem; cursor: pointer; font-weight: bold; }
+    pre { white-space: pre-wrap; margin-top: 1rem; }
+    h3 { color: #f4a85c; }
+  </style>
+</head>
+<body>
+  <h3>claw.equipment signup decryptor</h3>
+  <p>Paste the salt from .env:</p>
+  <input type="text" id="salt" placeholder="PUBLIC_ENCRYPTION_SALT value" />
+  <p>Paste localStorage JSON (claw-early-access):</p>
+  <textarea id="data" rows="6" placeholder='[{"ts":...,"data":"..."}]'></textarea>
+  <br><button onclick="run()">Decrypt</button>
+  <pre id="out"></pre>
+
+  <script>
+    async function deriveKey(salt) {
+      const enc = new TextEncoder();
+      const keyMaterial = await crypto.subtle.importKey(
+        'raw', enc.encode(salt), 'PBKDF2', false, ['deriveKey']
+      );
+      return crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt: enc.encode('claw-equipment'), iterations: 100000, hash: 'SHA-256' },
+        keyMaterial,
+        { name: 'AES-GCM', length: 256 },
+        false,
+        ['decrypt']
+      );
+    }
+
+    async function decryptEntry(salt, b64) {
+      const key = await deriveKey(salt);
+      const raw = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+      const iv = raw.slice(0, 12);
+      const ciphertext = raw.slice(12);
+      const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertext);
+      return new TextDecoder().decode(plain);
+    }
+
+    async function run() {
+      const salt = document.getElementById('salt').value.trim();
+      const dataStr = document.getElementById('data').value.trim();
+      const out = document.getElementById('out');
+      if (!salt || !dataStr) { out.textContent = 'Fill both fields.'; return; }
+      try {
+        const entries = JSON.parse(dataStr);
+        const results = [];
+        for (const entry of entries) {
+          const email = await decryptEntry(salt, entry.data);
+          const date = new Date(entry.ts).toISOString();
+          results.push(`${date}  ${email}`);
+        }
+        out.textContent = results.join('\n') || 'No entries.';
+      } catch (e) {
+        out.textContent = 'Error: ' + e.message;
+      }
+    }
+  </script>
+</body>
+</html>

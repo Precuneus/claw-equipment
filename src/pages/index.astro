@@ -62,7 +62,7 @@ import Base from '../layouts/Base.astro';
     border: none;
     outline: none;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.82rem;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.92);
     letter-spacing: 0.02em;
   }
@@ -107,19 +107,55 @@ import Base from '../layouts/Base.astro';
   scaleCanvas();
   window.addEventListener('resize', scaleCanvas);
 
+  // Encryption utilities
+  const SALT = import.meta.env.PUBLIC_ENCRYPTION_SALT;
+
+  async function deriveKey(salt: string): Promise<CryptoKey> {
+    const enc = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey(
+      'raw', enc.encode(salt), 'PBKDF2', false, ['deriveKey']
+    );
+    return crypto.subtle.deriveKey(
+      { name: 'PBKDF2', salt: enc.encode('claw-equipment'), iterations: 100000, hash: 'SHA-256' },
+      keyMaterial,
+      { name: 'AES-GCM', length: 256 },
+      false,
+      ['encrypt']
+    );
+  }
+
+  async function encryptEmail(email: string): Promise<string> {
+    const key = await deriveKey(SALT);
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const enc = new TextEncoder();
+    const ciphertext = await crypto.subtle.encrypt(
+      { name: 'AES-GCM', iv },
+      key,
+      enc.encode(email)
+    );
+    // Pack iv + ciphertext as base64
+    const packed = new Uint8Array(iv.length + new Uint8Array(ciphertext).length);
+    packed.set(iv);
+    packed.set(new Uint8Array(ciphertext), iv.length);
+    return btoa(String.fromCharCode(...packed));
+  }
+
   // Form handler
   const form = document.getElementById('sf');
-  form?.addEventListener('submit', (e) => {
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const input = document.getElementById('ei') as HTMLInputElement;
     const email = input?.value;
     if (email) {
-      const stored = JSON.parse(localStorage.getItem('claw-early-access') || '[]');
-      if (!stored.includes(email)) {
-        stored.push(email);
+      try {
+        const encrypted = await encryptEmail(email);
+        const stored = JSON.parse(localStorage.getItem('claw-early-access') || '[]');
+        stored.push({ ts: Date.now(), data: encrypted });
         localStorage.setItem('claw-early-access', JSON.stringify(stored));
+        form.outerHTML = '<p style="font-family:Crimson Pro,Georgia,serif;font-size:1rem;color:#f4a85c;">You are on the list.</p>';
+      } catch (err) {
+        console.error('Encryption failed:', err);
       }
-      form.outerHTML = '<p style="font-family:Crimson Pro,Georgia,serif;font-size:1rem;color:#f4a85c;">You are on the list.</p>';
     }
   });
 </script>
