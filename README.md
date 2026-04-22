@@ -93,3 +93,4 @@ decrypt.html           # offline email decryption utility
 .github/workflows/
   deploy.yml           # GitHub Pages CI/CD
 ```
+***
